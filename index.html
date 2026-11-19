@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#120f24">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Pharmaco">
+<meta name="description" content="Cinq jeux pour réviser les molécules du CC2 de pharmacologie (neurotransmission).">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>Pharmaco Arcade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{color-scheme:dark;--ink:#120f24;--panel:#1c1836;--panel2:#262047;--line:#3a3266;--fg:#efeaff;--mute:#a59dcc;--gold:#ffc94a;
+  --disp:"Unbounded","Arial Black",system-ui,sans-serif;--body:"Bricolage Grotesque",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--ink);color:var(--fg);font-family:var(--body)}
+body{min-height:100vh;padding:env(safe-area-inset-top) max(16px,env(safe-area-inset-right)) env(safe-area-inset-bottom) max(16px,env(safe-area-inset-left))}
+main{max-width:720px;margin:0 auto;padding-block:28px 40px;display:grid;gap:22px}
+.label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+h1{font-family:var(--disp);font-weight:900;font-size:clamp(34px,10vw,56px);line-height:1;margin:6px 0 0;letter-spacing:-.02em}
+h1 em{font-style:normal;background:linear-gradient(90deg,#5ef0c0,#5cc8ff,#c38bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hud{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}
+.lvl{font-family:var(--disp);font-weight:900;background:var(--gold);color:var(--ink);border-radius:10px;padding:6px 10px;font-size:14px}
+.bar{height:12px;background:var(--panel2);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#ff5d9e,var(--gold));border-radius:99px;width:0;transition:width .8s}
+.xp{font-family:var(--mono);font-size:12px;color:var(--mute)}
+.games{display:grid;gap:12px}
+.game{--c:#fff;display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:center;text-decoration:none;color:var(--fg);background:linear-gradient(120deg,color-mix(in srgb,var(--c) 16%,var(--panel)),var(--panel) 70%);border:1px solid var(--line);border-radius:18px;padding:16px;transition:transform .15s,border-color .15s}
+.game:hover,.game:focus-visible{transform:translateY(-2px);border-color:var(--c);outline:none}
+.game:active{transform:scale(.98)}
+.ico{width:64px;height:64px;border-radius:16px;background:radial-gradient(circle at 35% 30%,var(--c),color-mix(in srgb,var(--c) 30%,#000));display:grid;place-items:center;font-family:var(--disp);font-weight:900;font-size:24px;color:var(--ink)}
+.game h2{font-family:var(--disp);font-size:20px;margin:0}
+.game p{margin:2px 0 0;color:var(--mute);font-size:14px}
+.mastery{display:grid;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}
+.districts{display:grid;gap:8px}
+.d{display:grid;grid-template-columns:130px 1fr 44px;gap:10px;align-items:center;font-size:13px}
+.d .bar{height:8px}
+.d span:last-child{font-family:var(--mono);color:var(--mute);text-align:right;font-size:12px}
+@media (max-width:380px){.d{grid-template-columns:100px 1fr 40px}}
+.due{display:grid;gap:8px}
+.m{display:grid;gap:2px;padding:10px 12px;border-radius:12px;background:var(--panel2);border-left:3px solid var(--c)}
+.m b{font-size:15px}
+.m span{font-size:12.5px;color:var(--mute)}
+.m small{font-family:var(--mono);font-size:10.5px;color:var(--mute);opacity:.8}
+.foot{color:var(--mute);font-size:12.5px;text-align:center}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="label">CC2 · neurotransmission · 128 molécules</span>
+    <h1>Pharmaco <em>Arcade</em></h1>
+  </header>
+
+  <section class="hud" aria-label="Progression">
+    <span class="lvl" id="lvl">NIV. 1</span>
+    <div class="bar"><i id="xpb"></i></div>
+    <span class="xp" id="xpt">0 XP</span>
+  </section>
+
+  <nav class="games">
+    <a class="game" href="rush.html" style="--c:#5cc8ff"><span class="ico">R</span><div><h2>Suffix Rush</h2><p>2 minutes de réflexes : range chaque nom dans sa classe.</p></div></a>
+    <a class="game" href="alambic.html" style="--c:#5ef0c0"><span class="ico">A</span><div><h2>L'Alambic</h2><p>Fabrique les molécules : affixe, cible, indication, mécanisme.</p></div></a>
+    <a class="game" href="arsenal.html" style="--c:#c38bff"><span class="ico">✦</span><div><h2>Arsenal</h2><p>Ouvre des boosters, fais briller tes cartes, échange-les entre téléphones.</p></div></a>
+    <a class="game" href="familles.html" style="--c:#ffc94a"><span class="ico">7</span><div><h2>Les 7 Familles</h2><p>Contre des bots ou entre potes sur un seul téléphone.</p></div></a>
+    <a class="game" href="pharmapolis.html" style="--c:#ff7a6b"><span class="ico">P</span><div><h2>Pharmapolis</h2><p>La ville en 3D où chaque molécule a son adresse.</p></div></a>
+  </nav>
+
+  <section class="mastery" aria-label="Maîtrise par quartier">
+    <span class="label">Lumières de la ville · une par cours</span>
+    <div class="districts" id="dist"></div>
+  </section>
+
+  <section class="mastery" aria-label="À revoir">
+    <span class="label">À revoir en priorité</span>
+    <div class="due" id="due"></div>
+  </section>
+
+  <p class="foot">La progression est enregistrée sur ce téléphone et partagée entre les cinq jeux.<br>Ajoute la page à ton écran d'accueil pour l'ouvrir comme une appli.</p>
+</main>
+<script src="molecules.js"></script>
+<script src="progress.js"></script>
+<script>
+function render(){
+  const s=Progress.getXP();
+  document.getElementById('lvl').textContent='NIV. '+s.lvl;
+  document.getElementById('xpb').style.width=(s.xp/s.need*100)+'%';
+  document.getElementById('xpt').textContent=s.xp+' / '+s.need+' XP';
+  document.getElementById('dist').innerHTML=PHARMA.districts.map(d=>{
+    const mols=PHARMA.all.filter(m=>m.cls.district===d.id);
+    const lit=mols.filter(m=>Progress.mastery(m.n)>=.6).length;
+    return `<div class="d" title="${d.title||''}"><span>${d.name}</span><div class="bar"><i style="width:${lit/mols.length*100}%;background:${d.color}"></i></div><span>${lit}/${mols.length}</span></div>`;
+  }).join('');
+  const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  document.getElementById('due').innerHTML=Progress.due(3).map(n=>PHARMA.all.find(m=>m.n===n)).filter(Boolean).map(m=>
+    `<div class="m" style="--c:${m.cls.color}"><b>${esc(m.n)}</b><span>${esc(m.cls.name)} · ${esc(m.mecanisme||m.cls.mechanism)}</span>${m.source?`<small>${esc(m.source)}</small>`:''}</div>`).join('');
+}
+render();Progress.on(render);
+addEventListener('pageshow',render);
+</script>
+</body>
+</html>
